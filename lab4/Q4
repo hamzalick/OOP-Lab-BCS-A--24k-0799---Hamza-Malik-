@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+class ServerSession {
+private:
+    int sessionID;
+
+public:
+    ServerSession(int id) {
+        sessionID = id;
+        cout << "Session " << sessionID << " started. Resource acquired." << endl;
+    }
+
+    ~ServerSession() {
+        cout << "Session " << sessionID << " ended. Resource released." << endl;
+    }
+};
+
+int main() {
+    cout << "Entering session block..." << endl;
+    {
+        ServerSession session1(101);
+        cout << "Session is active inside the block." << endl;
+    }
+    cout << "Exited session block. Destructor has been called automatically." << endl;
+    return 0;
+}
