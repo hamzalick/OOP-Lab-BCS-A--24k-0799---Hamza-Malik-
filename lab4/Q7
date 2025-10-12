@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class SecureBankAccount {
+private:
+    int accountNumber;
+    double balance;
+    const string accountType;
+    int* logHistory;
+
+public:
+    SecureBankAccount(int accountNumber, double initialBalance, const string& type, int logSize)
+        : accountType(type) {
+        this->accountNumber = accountNumber;
+        this->balance = initialBalance;
+        if (initialBalance < 500.0) {
+            cout << "Error: Minimum initial balance of 500 PKR required." << endl;
+        }
+        logHistory = new int(logSize);
+        cout << "Account " << this->accountNumber << " created successfully." << endl;
+    }
+
+    SecureBankAccount(const SecureBankAccount& source)
+        : accountType(source.accountType) {
+        accountNumber = source.accountNumber;
+        balance = source.balance;
+        logHistory = new int(*source.logHistory);
+        cout << "Deep copy created for account " << accountNumber << "." << endl;
+    }
+
+    ~SecureBankAccount() {
+        delete logHistory;
+        cout << "Account " << accountNumber << " closed and memory released." << endl;
+    }
+
+    void display() {
+        cout << "Account Number: " << accountNumber << endl;
+        cout << "Balance: " << balance << " PKR" << endl;
+        cout << "Account Type: " << accountType << endl;
+        cout << "Log History Size: " << *logHistory << endl;
+    }
+};
+
+int main() {
+    {
+        SecureBankAccount acc1(101, 1000.0, "Current", 5);
+        SecureBankAccount acc2 = acc1;
+        cout << "\nOriginal Account:" << endl;
+        acc1.display();
+        cout << "\nCopied Account:" << endl;
+        acc2.display();
+    }
+    cout << "End of program scope." << endl;
+    return 0;
+}
