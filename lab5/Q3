@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Doctor {
+private:
+    string name;
+    string specialization;
+
+public:
+    Doctor(string n, string s) {
+        name = n;
+        specialization = s;
+    }
+
+    void display() const {
+        cout << "Dr. " << name << " - " << specialization << endl;
+    }
+};
+
+class Hospital {
+private:
+    string hospitalName;
+    Doctor* doctors[10];
+    int doctorCount;
+
+public:
+    Hospital(string name) {
+        hospitalName = name;
+        doctorCount = 0;
+    }
+
+    void addDoctor(Doctor* doc) {
+        if (doctorCount < 10) {
+            doctors[doctorCount++] = doc;
+        } else {
+            cout << "Cannot add more doctors to " << hospitalName << endl;
+        }
+    }
+
+    void showDoctors() const {
+        cout << "Hospital: " << hospitalName << endl;
+        if (doctorCount == 0) {
+            cout << "No doctors currently associated." << endl;
+            return;
+        }
+        cout << "Doctors working here:" << endl;
+        for (int i = 0; i < doctorCount; i++) {
+            doctors[i]->display();
+        }
+    }
+};
+
+int main() {
+    Doctor d1("Ayesha Khan", "Cardiologist");
+    Doctor d2("Bilal Ahmed", "Neurologist");
+    Doctor d3("Sara Malik", "Dermatologist");
+
+    Hospital h1("Lahore General Hospital");
+    Hospital h2("Shaukat Khanum Memorial");
+
+    h1.addDoctor(&d1);
+    h1.addDoctor(&d2);
+
+    h2.addDoctor(&d3);
+    h2.addDoctor(&d1);
+
+    cout << "\n--- Hospital 1 ---" << endl;
+    h1.showDoctors();
+
+    cout << "\n--- Hospital 2 ---" << endl;
+    h2.showDoctors();
+
+    cout << "\nDoctors can exist and move independently between hospitals." << endl;
+
+    return 0;
+}
