@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Employee {
+private:
+    string name;
+    int id;
+    static int totalEmployees;
+
+public:
+    Employee(string n, int i) {
+        name = n;
+        id = i;
+        totalEmployees++;
+    }
+
+    void display() {
+        cout << "Employee ID: " << id << ", Name: " << name << endl;
+    }
+
+    static void showTotalEmployees() {
+        cout << "Total Employees in Company: " << totalEmployees << endl;
+    }
+};
+
+int Employee::totalEmployees = 0;
+
+class ClientProject {
+private:
+    string projectName;
+    Employee* team[5];
+    int teamCount;
+
+public:
+    ClientProject(string name) {
+        projectName = name;
+        teamCount = 0;
+    }
+
+    void addEmployee(Employee* emp) {
+        if (teamCount < 5) {
+            team[teamCount++] = emp;
+        }
+    }
+
+    void showTeam() {
+        cout << "Project: " << projectName << endl;
+        cout << "Team Members:" << endl;
+        for (int i = 0; i < teamCount; i++) {
+            team[i]->display();
+        }
+    }
+};
+
+int main() {
+    Employee e1("Ali Raza", 101);
+    Employee e2("Sara Malik", 102);
+    Employee e3("Bilal Ahmed", 103);
+
+    ClientProject project1("E-Commerce Web Portal");
+    project1.addEmployee(&e1);
+    project1.addEmployee(&e2);
+    project1.addEmployee(&e3);
+
+    cout << "\n--- Project Details ---" << endl;
+    project1.showTeam();
+
+    cout << "\n--- Company Summary ---" << endl;
+    Employee::showTotalEmployees();
+
+    return 0;
+}
