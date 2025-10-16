@@ -1,0 +1,108 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class ClassSchedule {
+private:
+    string days;
+    string time;
+
+public:
+    ClassSchedule(string d, string t) {
+        days = d;
+        time = t;
+        cout << "Class schedule created for " << days << " at " << time << endl;
+    }
+
+    void display() {
+        cout << "Schedule: " << days << " at " << time << endl;
+    }
+
+    ~ClassSchedule() {
+        cout << "Class schedule removed." << endl;
+    }
+};
+
+class Student {
+private:
+    const int enrollmentID;
+    string name;
+
+public:
+    Student(int id, string n) : enrollmentID(id) {
+        name = n;
+    }
+
+    void display() {
+        cout << "Student ID: " << enrollmentID << ", Name: " << name << endl;
+    }
+};
+
+class CourseSection {
+private:
+    string sectionName;
+    ClassSchedule schedule;
+    Student* students[10];
+    int studentCount;
+    static int totalSections;
+
+public:
+    CourseSection(string name, string days, string time)
+        : sectionName(name), schedule(days, time) {
+        studentCount = 0;
+        totalSections++;
+        cout << "Course Section " << sectionName << " created." << endl;
+    }
+
+    void addStudent(Student* s) {
+        if (studentCount < 10) {
+            students[studentCount++] = s;
+        }
+    }
+
+    void display() {
+        cout << "\nCourse Section: " << sectionName << endl;
+        schedule.display();
+        cout << "Enrolled Students:" << endl;
+        for (int i = 0; i < studentCount; i++) {
+            students[i]->display();
+        }
+    }
+
+    static void showTotalSections() {
+        cout << "Total Course Sections Offered: " << totalSections << endl;
+    }
+
+    ~CourseSection() {
+        totalSections--;
+        cout << "Course Section " << sectionName << " ended." << endl;
+    }
+};
+
+int CourseSection::totalSections = 0;
+
+int main() {
+    Student s1(101, "Ali Khan");
+    Student s2(102, "Sara Malik");
+    Student s3(103, "Bilal Ahmed");
+
+    {
+        CourseSection sec1("BCS-A", "Mon-Wed-Fri", "10:00 AM");
+        sec1.addStudent(&s1);
+        sec1.addStudent(&s2);
+
+        CourseSection sec2("BCS-B", "Tue-Thu", "2:00 PM");
+        sec2.addStudent(&s3);
+
+        sec1.display();
+        sec2.display();
+
+        cout << endl;
+        CourseSection::showTotalSections();
+    }
+
+    cout << "\nAfter sections go out of scope:" << endl;
+    CourseSection::showTotalSections();
+
+    return 0;
+}
