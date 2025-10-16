@@ -1,0 +1,28 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MobileDevice {
+private:
+    string modelName;
+    const string IMEINumber;
+
+public:
+    MobileDevice(string model, string imei)
+        : IMEINumber(imei) {
+        modelName = model;
+    }
+
+    void verifyDevice() const {
+        cout << "Device Model: " << modelName << endl;
+        cout << "IMEI Number: " << IMEINumber << endl;
+        cout << "Verification: Device is registered and valid." << endl;
+    }
+};
+
+int main() {
+    MobileDevice device1("Samsung Galaxy S24", "359874102356789");
+    device1.verifyDevice();
+
+    return 0;
+}
