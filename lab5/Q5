@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Kitchen {
+private:
+    double area;
+    string style;
+
+public:
+    Kitchen(double a, string s) {
+        area = a;
+        style = s;
+        cout << "Kitchen created with area " << area << " sq.ft and style: " << style << endl;
+    }
+
+    void display() {
+        cout << "Kitchen Area: " << area << " sq.ft, Style: " << style << endl;
+    }
+
+    ~Kitchen() {
+        cout << "Kitchen destroyed." << endl;
+    }
+};
+
+class Apartment {
+private:
+    const int apartmentID;
+    Kitchen kitchen;
+
+public:
+    Apartment(int id, double kitchenArea, string kitchenStyle)
+        : apartmentID(id), kitchen(kitchenArea, kitchenStyle) {
+        cout << "Apartment " << apartmentID << " created." << endl;
+    }
+
+    void display() {
+        cout << "Apartment ID: " << apartmentID << endl;
+        kitchen.display();
+    }
+
+    ~Apartment() {
+        cout << "Apartment " << apartmentID << " destroyed." << endl;
+    }
+};
+
+int main() {
+    {
+        Apartment apt1(101, 120.5, "Modern");
+        cout << endl;
+        apt1.display();
+    }
+
+    cout << "\nEnd of program scope." << endl;
+    return 0;
+}
